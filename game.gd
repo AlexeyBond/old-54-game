@@ -20,6 +20,7 @@ func total_effect(effects: Array[Arena.EffectRect]) -> Arena.EffectRect:
 		res.effect_add_w += fx.effect_add_w
 		res.effect_add_y += fx.effect_add_y
 		res.effect_sub_r += fx.effect_sub_r
+		res.effect_add_p += fx.effect_add_p
 
 	return res
 
@@ -32,6 +33,8 @@ func format_status(effects: Array[Arena.EffectRect]):
 		res += " [color=white]+{}[/color]".format([total_effect.effect_add_w], "{}")
 	if total_effect.effect_add_y > 0:
 		res += " [color=yellow]+{}[/color]".format([total_effect.effect_add_y], "{}")
+	if total_effect.effect_add_p > 0:
+		res += " [color=purple]+{}[/color]".format([total_effect.effect_add_p], "{}")
 	if total_effect.effect_sub_r > 0:
 		res += " [color=red]-{}[/color]".format([total_effect.effect_sub_r], "{}")
 
@@ -40,7 +43,7 @@ func format_status(effects: Array[Arena.EffectRect]):
 func apply_effects(effects: Array[Arena.EffectRect]):
 	var total_effect: Arena.EffectRect = total_effect(effects)
 
-	var delta: float = total_effect.effect_add_w + total_effect.effect_add_y - total_effect.effect_sub_r
+	var delta: int = total_effect.effect_add_w + total_effect.effect_add_y - total_effect.effect_sub_r
 
 	score += delta
 	status_text.text = format_status([])

@@ -7,6 +7,7 @@ class_name Arena
 
 const FADE_K: float = 0.8
 const FADE_MIN: float = 0.05
+const AREA_TO_SCORE: float = 0.001
 
 class DrawableRect extends RefCounted:
 	var rect: Rect2
@@ -24,9 +25,10 @@ class DrawableRect extends RefCounted:
 		self.color.a = max(self.color.a * FADE_K, FADE_MIN)
 
 class EffectRect extends DrawableRect:
-	var effect_sub_r: float = 0.0
-	var effect_add_y: float = 0.0
-	var effect_add_w: float = 0.0
+	var effect_sub_r: int = 0
+	var effect_add_y: int = 0
+	var effect_add_w: int = 0
+	var effect_add_p: int = 0
 
 signal update_current_effects(effects: Array[EffectRect])
 signal apply_effects(effects: Array[EffectRect])
@@ -65,18 +67,28 @@ func calculate_effects(future_rect: Rect2) -> Array[EffectRect]:
 		
 		if r.get_area() > 2.0 and (r.size.x <= 1.1 or r.size.y <= 1.1):
 			var er: EffectRect = EffectRect.new(r.grow(5), Color.YELLOW)
-			er.effect_add_y = r.get_area() * 10.0
+			er.effect_add_y = int(r.get_area())
 			effects.push_back(er)
 
 	for hr in history:
 		var r: Rect2 = future_rect.intersection(hr.rect)
 		if r.has_area():
 			var effect: EffectRect = EffectRect.new(r, Color.RED)
-			effect.effect_sub_r = r.get_area()
+			effect.effect_sub_r = int(r.get_area() * AREA_TO_SCORE)
 			effects.push_back(effect)
 
+	for n in self.get_children():
+		if n is Effector:
+			var er: EffectRect = n.get_effect_rect(future_rect)
+			
+			if er != null:
+				n.set_touched(true)
+				effects.push_back(er)
+			else:
+				n.set_touched(false)
+
 	var future_rect_effect: EffectRect = EffectRect.new(future_rect, Color.WHITE)
-	future_rect_effect.effect_add_w = future_rect.get_area()
+	future_rect_effect.effect_add_w = int(future_rect.get_area() * AREA_TO_SCORE)
 	effects.push_back(future_rect_effect)
 
 	return effects

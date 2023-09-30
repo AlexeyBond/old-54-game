@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://btue7v5m3adaw"]
+[gd_scene load_steps=5 format=3 uid="uid://btue7v5m3adaw"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_sus1x"]
 [ext_resource type="Theme" uid="uid://cylacb7e25wnl" path="res://ui/main_theme.tres" id="2_1yx3w"]
 [ext_resource type="Script" path="res://arena.gd" id="3_3iew6"]
+[ext_resource type="PackedScene" uid="uid://cb5q44ncwn7jn" path="res://effector1.tscn" id="4_crd2r"]
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("arena", "status_text", "timer")]
 script = ExtResource("1_sus1x")
@@ -24,5 +25,8 @@ text = "100500 [color=white]+1000[/color] [color=yellow]+500[/color] [color=red]
 
 [node name="arena" type="Node2D" parent="."]
 script = ExtResource("3_3iew6")
+
+[node name="effector1" parent="arena" instance=ExtResource("4_crd2r")]
+position = Vector2(610, 370)
 
 [node name="Timer" type="Timer" parent="."]

@@ -11,8 +11,19 @@ config_version=5
 [application]
 
 config/name="old-54-game"
+run/main_scene="res://game.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/mode=3
+
+[editor]
+
+movie_writer/mjpeg_quality=0.61
+movie_writer/movie_file="C:/Users/A.Bond/Desktop/1.avi"
+movie_writer/fps=30
 
 [input]
 
