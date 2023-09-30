@@ -29,6 +29,7 @@ class EffectRect extends DrawableRect:
 	var effect_add_y: int = 0
 	var effect_add_w: int = 0
 	var effect_add_p: int = 0
+	var effect_mul_b: int = 1
 
 signal update_current_effects(effects: Array[EffectRect])
 signal apply_effects(effects: Array[EffectRect])

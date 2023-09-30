@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://2jdwfi7bfpqg"]
+
+[ext_resource type="Theme" uid="uid://cylacb7e25wnl" path="res://ui/main_theme.tres" id="1_622x2"]
+
+[sub_resource type="GDScript" id="GDScript_5ewp0"]
+script/source = "extends Effector
+
+@export var value: int = 2
+
+func _ready():
+	$Label.text = \"X%d\" % value
+
+func _add_effects(er: Arena.EffectRect):
+	er.effect_mul_b = value
+"
+
+[node name="effector1" type="Node2D"]
+script = SubResource("GDScript_5ewp0")
+color = Color(0, 0, 1, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -43.0
+offset_top = -23.0
+offset_right = 38.0
+offset_bottom = 23.0
+theme = ExtResource("1_622x2")
+theme_override_colors/font_color = Color(0, 0, 0.976471, 1)
+theme_override_font_sizes/font_size = 24
+text = "X2"
+horizontal_alignment = 1
+vertical_alignment = 1

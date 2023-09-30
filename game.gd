@@ -21,6 +21,7 @@ func total_effect(effects: Array[Arena.EffectRect]) -> Arena.EffectRect:
 		res.effect_add_y += fx.effect_add_y
 		res.effect_sub_r += fx.effect_sub_r
 		res.effect_add_p += fx.effect_add_p
+		res.effect_mul_b *= fx.effect_mul_b
 
 	return res
 
@@ -29,21 +30,26 @@ func format_status(effects: Array[Arena.EffectRect]):
 	
 	var total_effect: Arena.EffectRect = total_effect(effects)
 
-	if total_effect.effect_add_w > 0:
-		res += " [color=white]+{}[/color]".format([total_effect.effect_add_w], "{}")
-	if total_effect.effect_add_y > 0:
-		res += " [color=yellow]+{}[/color]".format([total_effect.effect_add_y], "{}")
-	if total_effect.effect_add_p > 0:
-		res += " [color=purple]+{}[/color]".format([total_effect.effect_add_p], "{}")
-	if total_effect.effect_sub_r > 0:
-		res += " [color=red]-{}[/color]".format([total_effect.effect_sub_r], "{}")
+	if total_effect.effect_add_w != 0:
+		res += " [color=white]%+d[/color]" % total_effect.effect_add_w
+	if total_effect.effect_add_y != 0:
+		res += " [color=yellow]%+d[/color]" % total_effect.effect_add_y
+	if total_effect.effect_add_p != 0:
+		res += " [color=ff00ff]%+d[/color]" % total_effect.effect_add_p
+	if total_effect.effect_sub_r != 0:
+		res += " [color=red]%+d[/color]" % -total_effect.effect_sub_r
+	
+	if total_effect.effect_mul_b != 1:
+		res += " [color=blue]X%d[/color]" % total_effect.effect_mul_b
 
 	return res
 
 func apply_effects(effects: Array[Arena.EffectRect]):
 	var total_effect: Arena.EffectRect = total_effect(effects)
 
-	var delta: int = total_effect.effect_add_w + total_effect.effect_add_y - total_effect.effect_sub_r
+	var delta: int = total_effect.effect_add_w + total_effect.effect_add_y - total_effect.effect_sub_r + total_effect.effect_add_p
+
+	delta *= total_effect.effect_mul_b
 
 	score += delta
 	status_text.text = format_status([])
