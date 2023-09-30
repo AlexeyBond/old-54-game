@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmbymsrfdgrmb"]
+
+[ext_resource type="Script" path="res://test.gd" id="1_frlfc"]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(0, -50)
+rotation = 0.598648
+script = ExtResource("1_frlfc")
