@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://duavj7mb663l"]
+
+[ext_resource type="PackedScene" uid="uid://cvd8dck6meywk" path="res://monolog.tscn" id="1_uwluu"]
+
+[node name="01_intro" type="CanvasLayer"]
+
+[node name="monolog" parent="." instance=ExtResource("1_uwluu")]
+text = Array[String](["Well, that was too easy", "Let's try something harder", "Try to gain 10000 points on the next level"])
+next_scene = "res://gameplay/02_game.tscn"
+
+[connection signal="over" from="monolog" to="." method="_on_monolog_over"]

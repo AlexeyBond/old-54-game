@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://wsnwq86s6gvo"]
+
+[ext_resource type="PackedScene" uid="uid://cvd8dck6meywk" path="res://monolog.tscn" id="1_dltsf"]
+
+[node name="00_intro1" type="CanvasLayer"]
+
+[node name="monolog" parent="." instance=ExtResource("1_dltsf")]
+text = Array[String](["(place something here 00)", "(place something here 01)"])
+next_scene = "res://gameplay/00_game.tscn"
+
+[connection signal="over" from="monolog" to="." method="_on_monolog_over"]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://ceksgfd85irpn"]
+
+[ext_resource type="PackedScene" uid="uid://btue7v5m3adaw" path="res://game.tscn" id="1_nd1a2"]
+
+[sub_resource type="GDScript" id="GDScript_yxr84"]
+script/source = "extends Node2D
+
+
+func _on_game_gained(score, delta):
+	if score < 0:
+		get_tree().change_scene_to_file(\"res://gameplay/01_fail.tscn\")
+"
+
+[node name="00_game" type="Node2D"]
+script = SubResource("GDScript_yxr84")
+
+[node name="Game" parent="." instance=ExtResource("1_nd1a2")]
+timer_enabled = false
+
+[connection signal="gained" from="Game" to="." method="_on_game_gained"]

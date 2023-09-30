@@ -6,6 +6,8 @@ class_name Game
 @export var status_text: RichTextLabel
 @export var timer: Timer
 
+@export var timer_enabled: bool = true
+
 var score: int = 0
 var ticks: int = 0
 
@@ -14,10 +16,12 @@ var is_stopped: bool = false;
 signal started;
 
 func _unhandled_input(event):
-	if event.is_action_pressed("click") and timer.is_stopped() and not self.is_stopped:
+	if event.is_action_pressed("click") and (timer != null and timer.is_stopped()) and not self.is_stopped:
 		arena.commit()
-		timer.start()
-		started.emit()
+
+		if timer_enabled:
+			timer.start()
+			started.emit()
 	elif event.is_action_pressed("reload"):
 		get_tree().reload_current_scene()
 
@@ -52,6 +56,8 @@ func format_status(effects: Array[Arena.EffectRect]):
 
 	return res
 
+signal gained(score: int, delta: int);
+
 func apply_effects(effects: Array[Arena.EffectRect]):
 	var total_effect: Arena.EffectRect = total_effect(effects)
 
@@ -60,9 +66,7 @@ func apply_effects(effects: Array[Arena.EffectRect]):
 	delta *= total_effect.effect_mul_b
 
 	score += delta
-	
-	
-	
+	gained.emit(score, delta);
 	status_text.text = format_status([])
 
 func update_current_effects(effects: Array[Arena.EffectRect]):

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://52rk5lr8gtob"]
+
+[ext_resource type="PackedScene" uid="uid://cvd8dck6meywk" path="res://monolog.tscn" id="1_18hct"]
+
+[node name="01_intro" type="CanvasLayer"]
+
+[node name="monolog" parent="." instance=ExtResource("1_18hct")]
+text = Array[String](["We made it!", "But isn't that still too easy?", "I've got an idea!", "I will click instead of you every second.", "Don't worry I will also poop in your ears every time I do so", "Let's call it a rythm-game", "30000 points.", "Let's go!"])
+next_scene = "res://gameplay/03_game.tscn"
+
+[connection signal="over" from="monolog" to="." method="_on_monolog_over"]

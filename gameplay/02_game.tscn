@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://g3lvep7ko2on"]
+
+[ext_resource type="PackedScene" uid="uid://btue7v5m3adaw" path="res://game.tscn" id="1_y3gkb"]
+[ext_resource type="PackedScene" uid="uid://cb5q44ncwn7jn" path="res://effector_add.tscn" id="2_t17p0"]
+
+[sub_resource type="GDScript" id="GDScript_yxr84"]
+script/source = "extends Node2D
+
+
+func _on_game_gained(score, delta):
+	if score < 0:
+		get_tree().change_scene_to_file(\"res://gameplay/02_fail.tscn\")
+	elif score >= 10000:
+		get_tree().change_scene_to_file(\"res://gameplay/03_intro.tscn\")
+"
+
+[node name="00_game" type="Node2D"]
+script = SubResource("GDScript_yxr84")
+
+[node name="Game" parent="." instance=ExtResource("1_y3gkb")]
+timer_enabled = false
+
+[node name="add_effector" parent="Game" instance=ExtResource("2_t17p0")]
+position = Vector2(300, 200)
+
+[node name="add_effector2" parent="Game" instance=ExtResource("2_t17p0")]
+position = Vector2(400, 800)
+
+[node name="add_effector3" parent="Game" instance=ExtResource("2_t17p0")]
+position = Vector2(800, 500)
+value = -10000
+
+[node name="add_effector4" parent="Game" instance=ExtResource("2_t17p0")]
+position = Vector2(1500, 200)
+
+[node name="add_effector5" parent="Game" instance=ExtResource("2_t17p0")]
+position = Vector2(1400, 700)
+
+[connection signal="gained" from="Game" to="." method="_on_game_gained"]

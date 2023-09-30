@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds3so537mqw2e"]
+
+[ext_resource type="PackedScene" uid="uid://cvd8dck6meywk" path="res://monolog.tscn" id="1_6hfj0"]
+
+[node name="01_intro" type="CanvasLayer"]
+
+[node name="monolog" parent="." instance=ExtResource("1_6hfj0")]
+text = Array[String](["You failed it.", "Don't forget that some of my perks cause negative growth of your score", "Let's try again"])
+next_scene = "res://gameplay/05_game.tscn"

@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://0edo3lfykaxs"]
+
+[ext_resource type="PackedScene" uid="uid://btue7v5m3adaw" path="res://game.tscn" id="1_fljd7"]
+[ext_resource type="PackedScene" uid="uid://cb5q44ncwn7jn" path="res://effector_add.tscn" id="2_m1oby"]
+[ext_resource type="AudioStream" uid="uid://07u10r0k35w0" path="res://sounds/kick.ogg" id="3_rfc02"]
+
+[sub_resource type="GDScript" id="GDScript_yxr84"]
+script/source = "extends Node2D
+
+var speed: float = 0
+
+func _process(delta):
+	$Game.rotate(delta * speed)
+
+func _on_game_gained(score, delta):
+	$AudioStreamPlayer.play()
+
+	speed = 1.0
+
+	if score < 0:
+		get_tree().change_scene_to_file(\"res://gameplay/05_fail.tscn\")
+	elif score >= 30000:
+		get_tree().change_scene_to_file(\"res://gameplay/06_intro.tscn\")
+"
+
+[node name="00_game" type="Node2D"]
+script = SubResource("GDScript_yxr84")
+
+[node name="Game" parent="." instance=ExtResource("1_fljd7")]
+position = Vector2(1000, 500)
+
+[node name="add_effector" parent="Game" instance=ExtResource("2_m1oby")]
+position = Vector2(-300, -300)
+
+[node name="add_effector2" parent="Game" instance=ExtResource("2_m1oby")]
+position = Vector2(-400, 300)
+
+[node name="add_effector3" parent="Game" instance=ExtResource("2_m1oby")]
+position = Vector2(-100, 0)
+value = -10000
+
+[node name="add_effector4" parent="Game" instance=ExtResource("2_m1oby")]
+position = Vector2(200, -300)
+
+[node name="add_effector5" parent="Game" instance=ExtResource("2_m1oby")]
+position = Vector2(400, 300)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_rfc02")
+
+[connection signal="gained" from="Game" to="." method="_on_game_gained"]

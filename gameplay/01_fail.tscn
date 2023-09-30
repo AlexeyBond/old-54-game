@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfctw6sdgymti"]
+
+[ext_resource type="PackedScene" uid="uid://cvd8dck6meywk" path="res://monolog.tscn" id="1_2t723"]
+
+[node name="01_intro" type="CanvasLayer"]
+
+[node name="monolog" parent="." instance=ExtResource("1_2t723")]
+text = Array[String](["Ok, that was not possible", "I'll give you some [color=ff00ff]perks[/color]", "Just gain 10000 points"])
+next_scene = "res://gameplay/02_game.tscn"

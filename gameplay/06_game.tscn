@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://vuogscpunyke"]
+
+[ext_resource type="PackedScene" uid="uid://btue7v5m3adaw" path="res://game.tscn" id="1_eskag"]
+[ext_resource type="PackedScene" uid="uid://cb5q44ncwn7jn" path="res://effector_add.tscn" id="2_4s4ey"]
+[ext_resource type="AudioStream" uid="uid://07u10r0k35w0" path="res://sounds/kick.ogg" id="3_3r7w7"]
+[ext_resource type="PackedScene" uid="uid://2jdwfi7bfpqg" path="res://effector_mul.tscn" id="3_dq7ib"]
+
+[sub_resource type="GDScript" id="GDScript_yxr84"]
+script/source = "extends Node2D
+
+var speed: float = 0
+
+func _process(delta):
+	$Game.rotate(delta * speed)
+
+func _on_game_gained(score, delta):
+	$AudioStreamPlayer.play()
+
+	if score < 0:
+		get_tree().change_scene_to_file(\"res://gameplay/06_fail.tscn\")
+	elif score >= 30000:
+		get_tree().change_scene_to_file(\"res://gameplay/07_intro.tscn\")
+	
+	if score > 20000:
+		speed = -2
+		$Game/Timer.wait_time = 0.5
+	elif score > 12000:
+		speed = 1.8
+		$Game/Timer.wait_time = 0.75
+	elif score > 5000:
+		speed = -1.5
+		$Game/Timer.wait_time = 0.80
+	else:
+		speed = 1
+		$Game/Timer.wait_time = 1.0
+"
+
+[node name="00_game" type="Node2D"]
+script = SubResource("GDScript_yxr84")
+
+[node name="Game" parent="." instance=ExtResource("1_eskag")]
+position = Vector2(1000, 500)
+
+[node name="add_effector" parent="Game" instance=ExtResource("2_4s4ey")]
+position = Vector2(-300, -300)
+
+[node name="add_effector2" parent="Game" instance=ExtResource("2_4s4ey")]
+position = Vector2(-400, 300)
+
+[node name="add_effector3" parent="Game" instance=ExtResource("2_4s4ey")]
+position = Vector2(-100, 0)
+value = -10000
+
+[node name="add_effector4" parent="Game" instance=ExtResource("2_4s4ey")]
+position = Vector2(200, -300)
+
+[node name="add_effector5" parent="Game" instance=ExtResource("2_4s4ey")]
+position = Vector2(400, 300)
+
+[node name="mul_effector" parent="Game" instance=ExtResource("3_dq7ib")]
+position = Vector2(100, 0)
+
+[node name="mul_effector2" parent="Game" instance=ExtResource("3_dq7ib")]
+position = Vector2(500, -100)
+value = 0
+
+[node name="mul_effector3" parent="Game" instance=ExtResource("3_dq7ib")]
+position = Vector2(-200, -400)
+value = 0
+
+[node name="mul_effector4" parent="Game" instance=ExtResource("3_dq7ib")]
+position = Vector2(-600, -100)
+value = 0
+
+[node name="mul_effector5" parent="Game" instance=ExtResource("3_dq7ib")]
+position = Vector2(-100, 400)
+value = 0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_3r7w7")
+
+[connection signal="gained" from="Game" to="." method="_on_game_gained"]
