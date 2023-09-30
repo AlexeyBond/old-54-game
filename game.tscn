@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://btue7v5m3adaw"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_sus1x"]
+[ext_resource type="Theme" uid="uid://cylacb7e25wnl" path="res://ui/main_theme.tres" id="2_1yx3w"]
+[ext_resource type="Script" path="res://arena.gd" id="3_3iew6"]
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("arena", "status_text", "timer")]
+script = ExtResource("1_sus1x")
+arena = NodePath("arena")
+status_text = NodePath("CanvasLayer/RichTextLabel")
+timer = NodePath("Timer")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 86.0
+grow_horizontal = 2
+theme = ExtResource("2_1yx3w")
+theme_override_font_sizes/normal_font_size = 56
+bbcode_enabled = true
+text = "100500 [color=white]+1000[/color] [color=yellow]+500[/color] [color=red]-100[/color]"
+
+[node name="arena" type="Node2D" parent="."]
+script = ExtResource("3_3iew6")
+
+[node name="Timer" type="Timer" parent="."]

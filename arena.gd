@@ -1,8 +1,12 @@
 extends Node2D
 
+class_name Arena
+
 @export var start_point: Vector2 = Vector2(100, 100)
+@export var interval_seconds: float = .5
 
 const FADE_K: float = 0.8
+const FADE_MIN: float = 0.05
 
 class DrawableRect extends RefCounted:
 	var rect: Rect2
@@ -17,16 +21,20 @@ class DrawableRect extends RefCounted:
 		target.draw_rect(self.rect, self.color, false, 1.5)
 	
 	func fade():
-		self.color.a = max(self.color.a * FADE_K, 0.1)
+		self.color.a = max(self.color.a * FADE_K, FADE_MIN)
 
 class EffectRect extends DrawableRect:
-	pass
+	var effect_sub_r: float = 0.0
+	var effect_add_y: float = 0.0
+	var effect_add_w: float = 0.0
+
+signal update_current_effects(effects: Array[EffectRect])
+signal apply_effects(effects: Array[EffectRect])
 
 var current_point: Vector2
 var history: Array[DrawableRect] = []
 
 var current_effects: Array[EffectRect] = []
-var current_future_rect: DrawableRect
 
 func _ready():
 	current_point = start_point
@@ -37,38 +45,45 @@ func get_future_rect() -> Rect2:
 func get_future_rect_drawable() -> DrawableRect:
 	return DrawableRect.new(get_future_rect(), Color.WHITE)
 
-func _unhandled_input(event):
-	if not event.is_action_pressed("click"):
-		return
-
+func commit():
 	var future_rect: DrawableRect = get_future_rect_drawable()
 	var effects: Array[EffectRect] = calculate_effects(future_rect.rect)
-
-	# TODO: Apply effects
+	apply_effects.emit(effects)
 
 	for hr in history:
 		hr.fade()
 	history.push_front(future_rect)
 	current_point = get_local_mouse_position()
 	current_effects.clear()
+	update_current_effects.emit(current_effects)
 
 func calculate_effects(future_rect: Rect2) -> Array[EffectRect]:
 	var effects: Array[EffectRect] = []
 	
+	if history.size() > 0:
+		var r: Rect2 = history[0].rect.intersection(future_rect.grow(1))
+		
+		if r.get_area() > 2.0 and (r.size.x <= 1.1 or r.size.y <= 1.1):
+			var er: EffectRect = EffectRect.new(r.grow(5), Color.YELLOW)
+			er.effect_add_y = r.get_area() * 10.0
+			effects.push_back(er)
+
 	for hr in history:
 		var r: Rect2 = future_rect.intersection(hr.rect)
 		if r.has_area():
 			var effect: EffectRect = EffectRect.new(r, Color.RED)
-
-			# TODO: make effect effective
-
+			effect.effect_sub_r = r.get_area()
 			effects.push_back(effect)
-	
+
+	var future_rect_effect: EffectRect = EffectRect.new(future_rect, Color.WHITE)
+	future_rect_effect.effect_add_w = future_rect.get_area()
+	effects.push_back(future_rect_effect)
+
 	return effects
 
-func _process(delta):
-	current_future_rect = get_future_rect_drawable()
-	current_effects = calculate_effects(current_future_rect.rect)
+func _process(_delta):
+	current_effects = calculate_effects(get_future_rect())
+	update_current_effects.emit(current_effects)
 	queue_redraw()
 
 func _draw():
