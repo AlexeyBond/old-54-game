@@ -78,7 +78,7 @@ func calculate_effects(future_rect: Rect2) -> Array[EffectRect]:
 			effect.effect_sub_r = int(r.get_area() * AREA_TO_SCORE)
 			effects.push_back(effect)
 
-	for n in self.get_children():
+	for n in get_parent().get_children():
 		if n is Effector:
 			var er: EffectRect = n.get_effect_rect(future_rect)
 			

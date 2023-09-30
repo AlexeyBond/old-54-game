@@ -7,11 +7,19 @@ class_name Game
 @export var timer: Timer
 
 var score: int = 0
+var ticks: int = 0
+
+var is_stopped: bool = false;
+
+signal started;
 
 func _unhandled_input(event):
-	if event.is_action_pressed("click") and timer.is_stopped():
+	if event.is_action_pressed("click") and timer.is_stopped() and not self.is_stopped:
 		arena.commit()
 		timer.start()
+		started.emit()
+	elif event.is_action_pressed("reload"):
+		get_tree().reload_current_scene()
 
 func total_effect(effects: Array[Arena.EffectRect]) -> Arena.EffectRect:
 	var res: Arena.EffectRect = Arena.EffectRect.new(Rect2(Vector2.ZERO, Vector2.ZERO), Color.BLACK)
@@ -52,15 +60,26 @@ func apply_effects(effects: Array[Arena.EffectRect]):
 	delta *= total_effect.effect_mul_b
 
 	score += delta
+	
+	
+	
 	status_text.text = format_status([])
 
 func update_current_effects(effects: Array[Arena.EffectRect]):
 	status_text.text = format_status(effects)
 
+signal tick_done(int)
+
 func tick():
 	arena.commit()
+	ticks += 1
+	tick_done.emit(ticks)
 
 func _ready():
 	arena.apply_effects.connect(self.apply_effects)
 	arena.update_current_effects.connect(self.update_current_effects)
 	timer.timeout.connect(self.tick)
+
+func stop():
+	timer.stop()
+	is_stopped = true

@@ -1,0 +1,111 @@
+[gd_scene load_steps=5 format=3 uid="uid://2ujkb67kwqet"]
+
+[ext_resource type="Script" path="res://effector.gd" id="1_1wkvt"]
+[ext_resource type="PackedScene" uid="uid://btue7v5m3adaw" path="res://game.tscn" id="2_ynjwl"]
+[ext_resource type="PackedScene" uid="uid://cb5q44ncwn7jn" path="res://effector_add.tscn" id="3_i3u43"]
+[ext_resource type="Theme" uid="uid://cylacb7e25wnl" path="res://ui/main_theme.tres" id="4_c1pl3"]
+
+[node name="level1" type="Node2D"]
+script = ExtResource("1_1wkvt")
+
+[node name="Game" parent="." instance=ExtResource("2_ynjwl")]
+
+[node name="add_effector" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(200, 200)
+
+[node name="add_effector2" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(200, 400)
+
+[node name="add_effector3" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(200, 700)
+
+[node name="add_effector4" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(200, 900)
+
+[node name="add_effector5" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(800, 900)
+
+[node name="add_effector6" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(800, 500)
+
+[node name="add_effector7" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(800, 200)
+
+[node name="add_effector8" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1200, 200)
+
+[node name="add_effector9" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1200, 600)
+
+[node name="add_effector10" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1200, 900)
+
+[node name="add_effector11" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1600, 200)
+
+[node name="add_effector12" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1600, 500)
+
+[node name="add_effector13" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1600, 900)
+
+[node name="add_effector14" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1800, 900)
+
+[node name="add_effector15" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1800, 600)
+
+[node name="add_effector16" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1800, 200)
+
+[node name="add_effector17" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1700, 700)
+value = -10000
+
+[node name="add_effector18" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1700, 400)
+value = -10000
+
+[node name="add_effector19" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1400, 400)
+value = -10000
+
+[node name="add_effector20" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1400, 700)
+value = -10000
+
+[node name="add_effector21" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1000, 700)
+value = -10000
+
+[node name="add_effector22" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(1000, 400)
+value = -10000
+
+[node name="add_effector23" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(500, 400)
+value = -10000
+
+[node name="add_effector24" parent="Game" instance=ExtResource("3_i3u43")]
+position = Vector2(500, 700)
+value = -10000
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="start_label" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_c1pl3")
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+text = "[center]GAIN [u]50000[/u] POINTS[/center]
+[center][font_size=50]click to start[/font_size][/center]"
+fit_content = true
+
+[connection signal="started" from="Game" to="CanvasLayer/start_label" method="hide"]

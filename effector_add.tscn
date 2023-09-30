@@ -1,9 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://cb5q44ncwn7jn"]
 
-[ext_resource type="Theme" uid="uid://cylacb7e25wnl" path="res://ui/main_theme.tres" id="1_73mb6"]
+[ext_resource type="Theme" uid="uid://cylacb7e25wnl" path="res://ui/main_theme.tres" id="1_2vr8s"]
 
 [sub_resource type="GDScript" id="GDScript_5ewp0"]
 script/source = "extends Effector
+
+class_name AddEffector
 
 @export var value: int = 1000
 
@@ -19,7 +21,7 @@ func _add_effects(er: Arena.EffectRect):
 	er.effect_add_p = value
 "
 
-[node name="effector1" type="Node2D"]
+[node name="add_effector" type="Node2D"]
 script = SubResource("GDScript_5ewp0")
 color = Color(1, 0, 1, 1)
 
@@ -28,7 +30,7 @@ offset_left = -43.0
 offset_top = -23.0
 offset_right = 38.0
 offset_bottom = 23.0
-theme = ExtResource("1_73mb6")
+theme = ExtResource("1_2vr8s")
 theme_override_colors/font_color = Color(0.882353, 0, 0.976471, 1)
 theme_override_font_sizes/font_size = 24
 text = "+100"
