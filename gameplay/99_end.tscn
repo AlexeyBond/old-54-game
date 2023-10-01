@@ -1,8 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://did6p0htj7i17"]
+[gd_scene load_steps=3 format=3 uid="uid://did6p0htj7i17"]
 
 [ext_resource type="PackedScene" uid="uid://cvd8dck6meywk" path="res://monolog.tscn" id="1_jt06a"]
 
+[sub_resource type="GDScript" id="GDScript_tarur"]
+script/source = "extends CanvasLayer
+
+
+func _on_monolog_over():
+	get_tree().quit()
+"
+
 [node name="01_intro" type="CanvasLayer"]
+script = SubResource("GDScript_tarur")
 
 [node name="monolog" parent="." instance=ExtResource("1_jt06a")]
 text = Array[String](["Well done!", "I don't have any more ideas", "So, this is [color=red]the end[/color]", "Bye."])
+
+[connection signal="over" from="monolog" to="." method="_on_monolog_over"]
