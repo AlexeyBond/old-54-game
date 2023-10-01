@@ -22,8 +22,6 @@ func _unhandled_input(event):
 		if timer_enabled:
 			timer.start()
 			started.emit()
-	elif event.is_action_pressed("reload"):
-		get_tree().reload_current_scene()
 
 func total_effect(effects: Array[Arena.EffectRect]) -> Arena.EffectRect:
 	var res: Arena.EffectRect = Arena.EffectRect.new(Rect2(Vector2.ZERO, Vector2.ZERO), Color.BLACK)
