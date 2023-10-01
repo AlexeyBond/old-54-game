@@ -58,6 +58,22 @@ func format_status(effects: Array[Arena.EffectRect]):
 
 signal gained(score: int, delta: int);
 
+func show_delta(delta: int):
+	var label: RichTextLabel = $CanvasLayer/delta_label.duplicate()
+	label.text = "%+d" % delta
+	
+	if delta < 0:
+		label.text = "[color=red]%s[/color]" % label.text
+	
+	label.visible = true
+	$CanvasLayer.add_child(label)
+	
+	var tw: Tween = get_tree().create_tween()
+	
+	tw.parallel().tween_property(label, 'position', Vector2(0, 500), 1.0)
+	tw.parallel().tween_property(label, 'modulate', Color(Color.WHITE, 0), 1.0)
+	tw.tween_callback(label.queue_free)
+
 func apply_effects(effects: Array[Arena.EffectRect]):
 	var total_effect: Arena.EffectRect = total_effect(effects)
 
@@ -68,6 +84,7 @@ func apply_effects(effects: Array[Arena.EffectRect]):
 	score += delta
 	gained.emit(score, delta);
 	status_text.text = format_status([])
+	show_delta(delta)
 
 func update_current_effects(effects: Array[Arena.EffectRect]):
 	status_text.text = format_status(effects)
