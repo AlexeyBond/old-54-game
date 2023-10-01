@@ -1,0 +1,109 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0koorytp6td2"]
+
+[ext_resource type="PackedScene" uid="uid://btue7v5m3adaw" path="res://game.tscn" id="1_cf5i6"]
+[ext_resource type="PackedScene" uid="uid://cb5q44ncwn7jn" path="res://effector_add.tscn" id="2_fvwxo"]
+[ext_resource type="AudioStream" uid="uid://07u10r0k35w0" path="res://sounds/kick.ogg" id="3_ux54g"]
+
+[sub_resource type="GDScript" id="GDScript_yxr84"]
+script/source = "extends Node2D
+
+var speed: float = 0
+
+var create_counter: float = 0
+
+func _process(delta):
+	var pos_delta: Vector2 = Vector2.DOWN * speed * delta
+	
+	for node in $Game.get_children():
+		if not (node is Effector):
+			continue
+		
+		var fx: Effector = node
+		
+		fx.transform = fx.transform.translated(pos_delta)
+		
+		if fx.transform.get_origin().y > 2000:
+			fx.queue_free()
+	
+	create_counter += delta * speed * 0.01
+	
+	while create_counter > 1.0:
+		create_counter -= 1.0
+		
+		var fx: Effector = create_random_effector()
+		fx.translate(Vector2(
+			randf_range(50, 1900),
+			randf_range(-100, 0) - 200.0
+		))
+		
+		$Game.add_child(fx)
+
+
+var mul_fx_scn: PackedScene = preload(\"res://effector_mul.tscn\")
+var add_fx_scn: PackedScene = preload(\"res://effector_add.tscn\")
+
+func create_random_effector() -> Effector:
+	if randf() < 0.1:
+		var mef: MulEffector = mul_fx_scn.instantiate()
+		
+		mef.value = randi_range(-2, 2)
+		
+		return mef
+	else:
+		var aef: AddEffector = add_fx_scn.instantiate()
+		
+		if randf() < 0.1:
+			aef.value = randi_range(1, 2) * 1_000_000
+		else:
+			aef.value = randi_range(1, 10) * 1_000
+		
+		if randf() < 0.1:
+			aef.value *= -1
+		
+		return aef
+
+
+func _on_game_gained(score, delta):
+	$AudioStreamPlayer.play()
+
+	if score < 0:
+		get_tree().change_scene_to_file(\"res://gameplay/07_fail.tscn\")
+	elif score >= 20_000_000:
+		get_tree().change_scene_to_file(\"res://gameplay/99_end.tscn\")
+	else:
+		if score > 10_000_000:
+			speed = 1000
+		elif score > 5_000_000:
+			speed = 500
+		elif score > 1_000_000:
+			speed = 200
+		else:
+			speed = 100
+"
+
+[node name="00_game" type="Node2D"]
+script = SubResource("GDScript_yxr84")
+
+[node name="Game" parent="." instance=ExtResource("1_cf5i6")]
+timer_enabled = false
+
+[node name="add_effector" parent="Game" instance=ExtResource("2_fvwxo")]
+position = Vector2(300, 200)
+
+[node name="add_effector2" parent="Game" instance=ExtResource("2_fvwxo")]
+position = Vector2(400, 800)
+
+[node name="add_effector3" parent="Game" instance=ExtResource("2_fvwxo")]
+position = Vector2(800, 500)
+value = -10000
+
+[node name="add_effector4" parent="Game" instance=ExtResource("2_fvwxo")]
+position = Vector2(1500, 200)
+
+[node name="add_effector5" parent="Game" instance=ExtResource("2_fvwxo")]
+position = Vector2(1400, 700)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ux54g")
+
+[connection signal="gained" from="Game" to="." method="_on_game_gained"]

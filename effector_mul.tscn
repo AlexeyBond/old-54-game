@@ -1,24 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://2jdwfi7bfpqg"]
 
+[ext_resource type="Script" path="res://effector_mul.tres.gd" id="1_266jv"]
 [ext_resource type="Theme" uid="uid://cylacb7e25wnl" path="res://ui/main_theme.tres" id="1_qh5yd"]
 
-[sub_resource type="GDScript" id="GDScript_5ewp0"]
-script/source = "extends Effector
-
-class_name MulEffector
-
-@export var value: int = 2
-
-func _ready():
-	$Label.text = \"X%d\" % value
-
-func _add_effects(er: Arena.EffectRect):
-	er.effect_mul_b = value
-"
-
 [node name="mul_effector" type="Node2D"]
-script = SubResource("GDScript_5ewp0")
-color = Color(0, 0, 1, 1)
+script = ExtResource("1_266jv")
+color = Color(0, 0, 0.976471, 1)
 
 [node name="Label" type="Label" parent="."]
 offset_left = -43.0

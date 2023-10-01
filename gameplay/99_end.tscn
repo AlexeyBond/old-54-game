@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://did6p0htj7i17"]
+
+[ext_resource type="PackedScene" uid="uid://cvd8dck6meywk" path="res://monolog.tscn" id="1_jt06a"]
+
+[node name="01_intro" type="CanvasLayer"]
+
+[node name="monolog" parent="." instance=ExtResource("1_jt06a")]
+text = Array[String](["Well done!", "I don't have any more ideas", "So, this is [color=red]the end[/color]", "Bye."])

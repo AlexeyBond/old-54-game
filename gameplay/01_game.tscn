@@ -9,6 +9,8 @@ script/source = "extends Node2D
 func _on_game_gained(score, delta):
 	if score < 0:
 		get_tree().change_scene_to_file(\"res://gameplay/01_fail.tscn\")
+	elif score > 10_000:
+		get_tree().change_scene_to_file(\"res://gameplay/01_success.tscn\")
 "
 
 [node name="00_game" type="Node2D"]

@@ -5,7 +5,7 @@
 [node name="00_intro1" type="CanvasLayer"]
 
 [node name="monolog" parent="." instance=ExtResource("1_dltsf")]
-text = Array[String](["(place something here 00)", "(place something here 01)"])
+text = Array[String](["Let's play a game", "But I'm not sure about rules yet", "Just select as much space as you can", "It will give you [u]points[/u]", "Get 2000 of them"])
 next_scene = "res://gameplay/00_game.tscn"
 
 [connection signal="over" from="monolog" to="." method="_on_monolog_over"]

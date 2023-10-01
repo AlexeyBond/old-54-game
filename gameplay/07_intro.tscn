@@ -5,7 +5,7 @@
 [node name="01_intro" type="CanvasLayer"]
 
 [node name="monolog" parent="." instance=ExtResource("1_5kcik")]
-text = Array[String](["TODO"])
-next_scene = "res://gameplay/06_game.tscn"
+text = Array[String](["Done.", "Let's try to move it in different direction now.", "Get 10000000 points!"])
+next_scene = "res://gameplay/07_game.tscn"
 
 [connection signal="over" from="monolog" to="." method="_on_monolog_over"]
